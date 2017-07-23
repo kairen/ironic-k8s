@@ -1,0 +1,15 @@
+{
+	"Nodes": [
+		{
+			"BMCIP": "192.168.0.100",
+			"VMName": "node1"
+		}
+	],
+	"BMCUsers": [
+		{
+			"Username": "admin",
+			"Password": "admin"
+		}
+	],
+	"WebAPIPort": 9090
+}

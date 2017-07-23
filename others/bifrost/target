@@ -1,0 +1,17 @@
+---
+ironic_url: "http://192.168.20.6:6385/"
+network_interface: "enp0s9"
+ironic_db_password: aSecretPassword473z
+mysql_username: root
+mysql_password: passwd
+ssh_public_key_path: "/root/.ssh/id_rsa.pub"
+deploy_image_filename: "user_image.qcow2"
+create_image_via_dib: false
+transform_boot_image: false
+create_ipa_image: false
+dnsmasq_dns_servers: 8.8.8.8,8.8.4.4
+dnsmasq_router: 10.0.0.1
+dhcp_pool_start: 10.0.0.100
+dhcp_pool_end: 10.0.0.150
+dhcp_lease_time: 12h
+dhcp_static_mask: 255.255.255.0
