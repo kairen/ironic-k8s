@@ -3,7 +3,7 @@
 # Run all container.
 #
 
-CONF="./config"
+CONF="./config.env"
 USER="kairen"
 IMAGE_VOLUME="image"
 
@@ -48,7 +48,7 @@ docker run -d -p 69:69/udp \
 
 ## start httpd
 status httpd
-docker run -d --rm -p 8080:80 \
+docker run -d -p 8080:80 \
     -v ${IMAGE_VOLUME}:/imagedata \
     --name httpd \
     ${USER}/httpd
@@ -56,7 +56,7 @@ docker run -d --rm -p 8080:80 \
 ## start dnsmasq
 status dnsmasq
 source ./config
-docker run -d --rm -p 53:53 -p 53:53/udp \
+docker run -d -p 53:53 -p 53:53/udp \
     --env-file ${CONF}  \
     --cap-add=NET_ADMIN \
     --net=host \
@@ -66,8 +66,7 @@ docker run -d --rm -p 53:53 -p 53:53/udp \
 
 ## start ironic db sync
 status sync-db
-docker run --rm \
-    --env-file ${CONF}  \
+docker run --env-file ${CONF}  \
     --link=rabbitmq:rabbitmq \
     --link=mariadb:mariadb \
     --name ironic-dbsync \

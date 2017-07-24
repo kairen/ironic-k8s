@@ -9,19 +9,19 @@ BUILD = echo -e "\033[34m*** Build $(1) image ***\033[0m"; \
 DELETE = echo -e "\033[34m*** Delete $(1) image ***\033[0m"; \
 	docker stop $(1); docker rm $(1)
 
-.PHONY: all build install uninstall dib devel
+.PHONY: all build deploy reset dib devel
 
 all: build
 
 build:
 	for image in $(IMAGES); do $(call BUILD,$$image); done
 
-install:
+deploy:
 	./.run.sh
 
 OVI = $(IMAGES)
 override OVI += rabbitmq mariadb
-uninstall:
+reset:
 	for image in $(OVI); do $(call DELETE,$$image); done
 
 dib:
@@ -34,7 +34,7 @@ dib:
 
 devel:
 	docker run -it \
-		--env-file ./config \
+		--env-file ./config.env \
 		--name ironic-test \
 		--link=rabbitmq:rabbitmq \
 		--link=mariadb:mariadb \
