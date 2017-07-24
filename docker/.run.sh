@@ -32,7 +32,7 @@ docker run -d \
     mariadb:10.1.22
 
 ## start copy image data
-status imagedata
+status boot-image
 docker volume create --name ${IMAGE_VOLUME}
 docker run -v image:/imagedata \
     -it --rm \
@@ -55,7 +55,7 @@ docker run -d -p 8080:80 \
 
 ## start dnsmasq
 status dnsmasq
-source ./config
+source ${CONF}
 docker run -d -p 53:53 -p 53:53/udp \
     --env-file ${CONF}  \
     --cap-add=NET_ADMIN \
