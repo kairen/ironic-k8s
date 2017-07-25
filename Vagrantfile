@@ -7,8 +7,8 @@ Vagrant.configure("2") do |config|
   config.vm.define "ironic-dev" do |n|
     n.vm.hostname = "ironic-dev"
     # n.vm.network :private_network, ip: "192.168.50.5", virtualbox__intnet: true
-    n.vm.network :private_network, ip: "192.168.20.6",  auto_config: true
-    n.vm.network :private_network, ip: "192.168.30.6",  auto_config: true
+    n.vm.network :private_network, ip: "192.168.20.6", auto_config: true, :mac => "5CA1AB1E0001"
+    n.vm.network :private_network, ip: "192.168.30.6", auto_config: true, :mac => "5CA1AB1E0002"
 
     n.vm.provider :virtualbox do |vb, override|
       vb.name = "#{n.vm.hostname}"
