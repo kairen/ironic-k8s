@@ -6,13 +6,10 @@
 set -xe
 
 # Install packages
-sudo yum install -y epel-release vim git
-sudo yum install -y python-pip python-devel \
-                    libffi-devel gcc openssl-devel \
-                    ansible ntp python-virtualenv \
-                    python-netaddr screen
-
+sudo yum install -y epel-release
+sudo yum install -y vim git python python-pip gcc python-devel
 sudo pip install -U pip
+sudo pip install -U python-ironicclient
 curl -fsSL "https://get.docker.com/" | sh
 
 # Configure services
