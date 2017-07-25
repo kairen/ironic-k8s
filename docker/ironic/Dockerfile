@@ -1,7 +1,7 @@
 FROM centos:7
 MAINTAINER Kyle Bai (kyle.b@inwinstack.com)
 
-RUN yum install -y git epel-release python-pip vim && \
+RUN yum install -y git epel-release python-pip vim mariadb qemu-img && \
   yum install -y python-devel openssl-devel \
                 python-pip mysql-devel libxml2-devel \
                 libxslt-devel postgresql-devel git \
@@ -18,4 +18,7 @@ RUN yum install -y git epel-release python-pip vim && \
   cp -r /ironic/etc/ironic/* /etc/ironic/
 
 COPY boot.ipxe /etc/ironic/boot.ipxe
-COPY ironic.conf.sh /usr/bin/ironic.conf.sh
+COPY scripts/* /usr/bin/
+
+EXPOSE 6385 3260
+ENTRYPOINT ["entrypoint.sh"]

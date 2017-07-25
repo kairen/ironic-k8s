@@ -1,3 +1,8 @@
+#!/bin/bash
+#
+# General config file.
+#
+
 cat > /etc/ironic/ironic.conf <<-EOF
 [DEFAULT]
 enabled_hardware_types = ipmi

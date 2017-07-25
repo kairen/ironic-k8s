@@ -14,7 +14,7 @@ function status {
 set -e
 
 ## start rabbitmq
-status rabbitmq
+status "rabbitmq"
 docker run -d \
     --env-file ${CONF} \
     --hostname rabbitmq \
@@ -22,7 +22,7 @@ docker run -d \
     rabbitmq:3
 
 ## start mariadb
-status mariadb
+status "mariadb"
 docker volume create --name db
 docker run -d \
     -v db:/var/lib/mysql \
@@ -32,7 +32,7 @@ docker run -d \
     mariadb:10.1.22
 
 ## start copy image data
-status boot-image
+status "boot image"
 docker volume create --name ${IMAGE_VOLUME}
 docker run -v image:/imagedata \
     -it --rm \
@@ -40,21 +40,21 @@ docker run -v image:/imagedata \
     ${USER}/boot-image
 
 ## start tftp
-status tftp
+status "tftp"
 docker run -d -p 69:69/udp \
     -v ${IMAGE_VOLUME}:/imagedata \
     --name tftp \
     ${USER}/tftp
 
 ## start httpd
-status httpd
+status "httpd"
 docker run -d -p 8080:80 \
     -v ${IMAGE_VOLUME}:/imagedata \
     --name httpd \
     ${USER}/httpd
 
 ## start dnsmasq
-status dnsmasq
+status "dnsmasq"
 source ${CONF}
 docker run -d -p 53:53 -p 53:53/udp \
     --env-file ${CONF}  \
@@ -65,28 +65,28 @@ docker run -d -p 53:53 -p 53:53/udp \
     ${USER}/dnsmasq
 
 ## start ironic db sync
-status sync-db
-docker run --env-file ${CONF}  \
+status "ironic db sync"
+docker run --rm \
+    --env-file ${CONF}  \
     --link=rabbitmq:rabbitmq \
     --link=mariadb:mariadb \
-    --name ironic-dbsync \
-    ${USER}/ironic-dbsync
+    ${USER}/ironic dbsync
 
 ## start ironic api
-status ironic-api
+status "ironic api"
 docker run -d -p 6385:6385 \
     --env-file ${CONF} \
     --link=rabbitmq:rabbitmq \
     --link=mariadb:mariadb \
     --name ironic-api \
-    ${USER}/ironic-api
+    ${USER}/ironic api
 
 ## start ironic conductor
-status ironic-conductor
+status "ironic conductor"
 docker run -d -p 3260:3260 \
     --env-file ${CONF} \
     --link=rabbitmq:rabbitmq \
     --link=mariadb:mariadb \
     -v image:/imagedata \
     --name ironic-conductor \
-    ${USER}/ironic-conductor
+    ${USER}/ironic conductor

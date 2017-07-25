@@ -1,11 +1,8 @@
 USER = kairen
-IMAGES := \
-  dnsmasq disk-image-build tftp boot-image httpd \
-	ironic-base ironic-api ironic-conductor ironic-dbsync ironic-test
-
+IMAGES := dnsmasq disk-image-build tftp boot-image httpd ironic
 BUILD = echo -e "\033[34m*** Build $(1) image ***\033[0m"; \
 	docker build -t $(USER)/$(1) $(1)/.
-
+	
 DELETE = echo -e "\033[34m*** Delete $(1) image ***\033[0m"; \
 	docker stop $(1); docker rm $(1)
 
@@ -19,13 +16,12 @@ build:
 deploy:
 	./.run.sh
 
-OVI = $(IMAGES)
-override OVI += rabbitmq mariadb
+RPN := tftp httpd dnsmasq ironic-api ironic-conductor mariadb rabbitmq
 reset:
-	for image in $(OVI); do $(call DELETE,$$image); done
+	for name in $(RPN); do $(call DELETE,$$name); done
 
 dib:
-	docker run -it --rm --name disk-image-build \
+	docker run -it --rm \
 		-v image:/imagedata \
 		-v /root/.ssh/id_rsa.pub:/id_rsa.pub \
 		-v /dev/:/dev/ \
@@ -33,11 +29,8 @@ dib:
 		$(USER)/disk-image-build
 
 devel:
-	docker run -it \
+	docker run -it --rm \
 		--env-file ./config.env \
-		--name ironic-test \
 		--link=rabbitmq:rabbitmq \
 		--link=mariadb:mariadb \
-		--entrypoint=/bin/bash \
-		--rm \
-		$(USER)/ironic-test
+		$(USER)/ironic devel
