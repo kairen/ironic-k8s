@@ -21,7 +21,7 @@ $ git clone https://github.com/kairen/ironic-k8s-dev.git
 $ cd ironic-k8s-dev/docker
 ```
 
-Build standable ironic containers:
+Build standalone ironic containers:
 ```sh
 $ make build
 ```
