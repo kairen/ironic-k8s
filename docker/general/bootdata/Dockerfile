@@ -1,4 +1,4 @@
-FROM alpine:3.4
+FROM alpine:3.6
 MAINTAINER Kyle Bai (kyle.b@inwinstack.com)
 
 RUN mkdir /data && \
