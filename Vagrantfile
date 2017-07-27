@@ -12,7 +12,7 @@ Vagrant.configure("2") do |config|
 
     n.vm.provider :virtualbox do |vb, override|
       vb.name = "#{n.vm.hostname}"
-      vb.memory = 8192
+      vb.memory = 4096
       vb.cpus = 2
     end
   end
