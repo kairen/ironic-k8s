@@ -36,8 +36,8 @@ status "boot image"
 docker volume create --name ${IMAGE_VOLUME}
 docker run -v image:/imagedata \
     -it --rm \
-    --name boot-image \
-    ${USER}/boot-image
+    --name bootdata \
+    ${USER}/bootdata
 
 ## start tftp
 status "tftp"

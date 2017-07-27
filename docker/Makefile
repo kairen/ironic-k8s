@@ -1,8 +1,8 @@
 USER = kairen
-IMAGES := dnsmasq disk-image-build tftp boot-image httpd ironic
-BUILD = echo -e "\033[34m*** Build $(1) image ***\033[0m"; \
+IMAGES := ironic
+BUILD = echo -e "\033[34m*** Build $(1) ***\033[0m"; \
 	docker build -t $(USER)/$(1) $(1)/.
-	
+
 DELETE = echo -e "\033[34m*** Delete $(1) image ***\033[0m"; \
 	docker stop $(1); docker rm $(1)
 
@@ -12,6 +12,7 @@ all: build
 
 build:
 	for image in $(IMAGES); do $(call BUILD,$$image); done
+	cd general; ./.build.sh
 
 deploy:
 	./.run.sh
